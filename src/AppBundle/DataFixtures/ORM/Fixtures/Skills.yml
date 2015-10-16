@@ -1,0 +1,9 @@
+AppBundle\Entity\Skills:
+      UserTest{1..1}:
+        name: "Photographer"
+
+      User{1..2}:
+        name: "Architecture"
+
+      User{2..2}:
+        name: "Design"

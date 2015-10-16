@@ -1,0 +1,12 @@
+AppBundle\Entity\State:
+      StateTest{1..1}:
+        name: "Chearkassy region"
+        country: 1
+
+      State{1..2}:
+        name: "Kyiv region"
+        country: 1
+
+      State{2..2}:
+        name: "Poltava region"
+        country: 1

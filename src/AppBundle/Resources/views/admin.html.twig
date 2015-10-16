@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="wrapper">
+
+        <header class="topnavbar-wrapper">
+            <nav role="navigation" class="navbar topnavbar">
+                <div class="navbar-header">
+                    <a href="{{ path('appbundle_admin_index') }}" class="navbar-brand">
+                        <div class="brand-logo">YouBrush</div>
+                    </a>
+                </div>
+                <div class="nav-wrapper">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{{ path('appbundle_admin_index') }}">Home</a></li>
+                        <li><a href="{{ path('youbrush_admin_user_index') }}">Users</a></li>
+                        <li><a href="{{ path('youbrush_appbundle_admin_skills') }}">Skills</a></li>
+                        <li><a href="{{ path('youbrush_appbundle_admin_country_index') }}">Country</a></li>
+                        <li><a href="{{ path('youbrush_appbundle_admin_state_index') }}">State</a></li>
+                        <li><a href="{{ path('youbrush_appbundle_admin_city_index') }}">City</a></li>
+                        <li><a href="{{ path('_security_logout') }}">Logout</a></li>
+                        <!-- END lock screen-->
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <div class="container">
+            {% block content -%}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
