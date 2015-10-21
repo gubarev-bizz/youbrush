@@ -2,10 +2,13 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\State;
 use AppBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class RegistrationType extends AbstractType
 {
@@ -30,10 +33,23 @@ class RegistrationType extends AbstractType
                 'second_options' => ['label' => 'Repeat Password'],
             ])
             ->add('skills', null, ['required' => false])
-            ->add('country', null, ['required' => true])
-            ->add('state', null, ['required' => true])
-            ->add('city', null, ['required' => true])
+            ->add('country', 'entity', [
+                'class' => 'AppBundle:Country',
+                'required' => true
+            ])
         ;
+            /*
+            ->add('state', 'entity', array(
+                'class' => 'AppBundle:State',
+                'multiple' => false,
+                'required' => true,
+                'mapped' => true,
+                'empty_value' => '-- sélectionner un ensemble --',
+            ))
+            */
+
+
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
