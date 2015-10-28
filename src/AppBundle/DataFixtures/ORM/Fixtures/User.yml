@@ -7,14 +7,14 @@ AppBundle\Entity\User:
         status: 1
         type: "admin"
 
-      User{1..12}:
+      User{1..10}:
         email: <email()>
         name: <firstName()> <lastName()>
         password: "$2a$12$6D7E.zq9mCZPbFVIF637tOhYRXov8xO2Zfgd2/EzTIw8I9OfBnAU."
         status: 1
         type: "user"
 
-      User{12..24}:
+      Manager{1..10}:
         email: <email()>
         name: <firstName()> <lastName()>
         password: "$2a$12$6D7E.zq9mCZPbFVIF637tOhYRXov8xO2Zfgd2/EzTIw8I9OfBnAU."

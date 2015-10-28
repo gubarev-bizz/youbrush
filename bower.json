@@ -1,0 +1,17 @@
+{
+  "name": "youbrush",
+  "version": "1.0.0",
+  "dependencies": {
+    "jquery": ">=1.5.3",
+    "bootstrap": "3.2.0",
+    "components-font-awesome": "4.3.0",
+    "plupload-bower": "1.5.7",
+    "bootstrap-datepicker": "*",
+    "bootstrap-select": "*",
+    "mjolnic-bootstrap-colorpicker": "*",
+    "bootstrap-filestyle": "*",
+    "flexslider": "*",
+    "jquery.maskedinput": "*",
+    "jquery-form": "3.46.0"
+  }
+}
