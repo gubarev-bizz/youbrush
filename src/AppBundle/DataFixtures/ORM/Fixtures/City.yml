@@ -1,0 +1,12 @@
+AppBundle\Entity\City:
+      CityTest{1..1}:
+        name: "Cherkassy"
+        state: 1
+
+      City{1..2}:
+        name: "Smila"
+        state: 1
+
+      City{2..2}:
+        name: "Yman"
+        state: 1

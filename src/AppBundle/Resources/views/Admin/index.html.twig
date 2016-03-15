@@ -1,0 +1,9 @@
+{% extends 'AppBundle::admin.html.twig' %}
+
+{% block content -%}
+
+    {% for user in users %}
+        {{ user.id }}
+    {% endfor %}
+
+{% endblock %}
