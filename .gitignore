@@ -1,0 +1,10 @@
+vendor
+.idea/
+web/bundles
+bin/
+app/config/parameters.yml
+app/bootstrap.php.cache
+app/cache/dev/
+app/logs/dev.log
+node_modules
+bower_components

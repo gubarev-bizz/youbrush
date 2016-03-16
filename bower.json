@@ -1,0 +1,22 @@
+{
+  "name": "youbrush",
+  "description": "youbrush project",
+  "main": "gulpfile.js",
+  "authors": [
+    "Anton Gubarev"
+  ],
+  "license": "BSD-2-Clause",
+  "homepage": "https://github.com/gubarev-bizz/youbrush",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.1",
+    "bootstrap": "^3.3.6"
+  }
+}
