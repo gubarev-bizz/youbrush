@@ -12,7 +12,7 @@ var gulp = require('gulp'),
 
 gulp.task('default', ['build']);
 
-gulp.task('build', ['fonts', 'styles:bundle', 'less', 'scripts:bundle', 'js']);
+gulp.task('build', ['fonts', 'styles:bundle', 'less', 'scripts:bundle', 'scripts:adminLTE', 'js']);
 
 gulp.task('clean', function (cb) {
     del(['web/css/*', 'web/js/*', 'web/fonts/*'], cb);
@@ -62,6 +62,19 @@ gulp.task('scripts:bundle', function() {
     ])
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(concat('core.js'))
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('web/js'));
+});
+
+gulp.task('scripts:adminLTE', function() {
+    return gulp.src([
+        'bower_components/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js',
+        'bower_components/AdminLTE/bootstrap/js/bootstrap.js',
+        'bower_components/AdminLTE/bootstrap/js/npm.js'
+    ])
+        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(concat('admin.js'))
         .pipe(uglify())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('web/js'));
