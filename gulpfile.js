@@ -12,7 +12,7 @@ var gulp = require('gulp'),
 
 gulp.task('default', ['build']);
 
-gulp.task('build', ['fonts', 'styles:bundle', 'less', 'scripts:bundle', 'scripts:adminLTE', 'js']);
+gulp.task('build', ['fonts', 'styles:bundle', 'less', 'scripts:bundle', 'scripts:adminLTE', 'styles:adminLTE', 'js', 'js:admin']);
 
 gulp.task('clean', function (cb) {
     del(['web/css/*', 'web/js/*', 'web/fonts/*'], cb);
@@ -20,12 +20,25 @@ gulp.task('clean', function (cb) {
 
 gulp.task('styles:bundle', function() {
     return gulp.src([
-        'node_modules/bootstrap/dist/css/bootstrap.min.css'
+        'node_modules/bootstrap/dist/css/bootstrap.min.css',
+        'bower_components/components-font-awesome/css/font-awesome.min.css'
     ])
         .pipe(plumber())
         .pipe(uglifycss())
         .pipe(plumber.stop())
         .pipe(concat('core.css'))
+        .pipe(gulp.dest('web/css'));
+});
+
+gulp.task('styles:adminLTE', function() {
+    return gulp.src([
+        'bower_components/AdminLTE/dist/css/AdminLTE.css',
+        'bower_components/AdminLTE/dist/css/skins/_all-skins.css'
+    ])
+        .pipe(plumber())
+        .pipe(uglifycss())
+        .pipe(plumber.stop())
+        .pipe(concat('admin.css'))
         .pipe(gulp.dest('web/css'));
 });
 
@@ -42,7 +55,10 @@ gulp.task('less', function () {
 });
 
 gulp.task('fonts', function () {
-    return gulp.src(['node_modules/bootstrap/fonts/*', 'web-src/fonts/*'])
+    return gulp.src([
+        'node_modules/bootstrap/fonts/*', 'web-src/fonts/*',
+        'bower_components/components-font-awesome/fonts/*', 'web-src/fonts/*'
+    ])
         .pipe(gulp.dest('web/fonts'))
 });
 
@@ -55,10 +71,26 @@ gulp.task('js', function() {
         .pipe(gulp.dest('web/js'));
 });
 
+gulp.task('js:admin', function() {
+    return gulp.src(['web-src/js/**/*.js'])
+        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(uglify())
+        .pipe(concat('admin-script.js'))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('web/js'));
+});
+
 gulp.task('scripts:bundle', function() {
     return gulp.src([
         'node_modules/jquery/dist/jquery.js',
-        'node_modules/bootstrap/dist/js/bootstrap.js'
+        'node_modules/bootstrap/dist/js/bootstrap.js',
+        'bower_components/bootstrap/js/affix.js',
+        'bower_components/bootstrap/js/alert.js',
+        'bower_components/bootstrap/js/button.js',
+        'bower_components/bootstrap/js/dropdown.js',
+        'bower_components/bootstrap/js/popover.js',
+        'bower_components/bootstrap/js/tooltip.js',
+        'bower_components/bootstrap/js/transition.js'
     ])
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(concat('core.js'))
@@ -71,7 +103,16 @@ gulp.task('scripts:adminLTE', function() {
     return gulp.src([
         'bower_components/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js',
         'bower_components/AdminLTE/bootstrap/js/bootstrap.js',
-        'bower_components/AdminLTE/bootstrap/js/npm.js'
+        'bower_components/AdminLTE/bootstrap/dist/js/app.js',
+        'bower_components/bootstrap/js/affix.js',
+        'bower_components/bootstrap/js/alert.js',
+        'bower_components/bootstrap/js/button.js',
+        'bower_components/bootstrap/js/dropdown.js',
+        'bower_components/bootstrap/js/popover.js',
+        'bower_components/bootstrap/js/tooltip.js',
+        'bower_components/bootstrap/js/transition.js',
+        'bower_components/AdminLTE/plugins/slimScroll/jquery.slimscroll.js',
+        'bower_components/AdminLTE/dist/js/demo.js'
     ])
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(concat('admin.js'))

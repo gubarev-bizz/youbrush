@@ -1,0 +1,2 @@
+!function(e){e(document).ready(function(){e(".content-wrapper").css({"min-height":e(window).height()-e(".main-header").height()+"px"}),e(window).resize(function(){e(".content-wrapper").css({"min-height":e(window).height()-e(".main-header").height()+"px"})})})}(jQuery);
+//# sourceMappingURL=admin-script.js.map

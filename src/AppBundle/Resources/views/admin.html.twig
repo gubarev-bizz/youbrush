@@ -1,10 +1,29 @@
 {% extends '::base.html.twig' %}
 
+{% block styles -%}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}" />
+{% endblock %}
+
+{% block attributes_body -%}
+    class="skin-blue sidebar-mini"
+{% endblock %}
+
 {% block body -%}
     <div class="wrapper">
 
-        <header class="topnavbar-wrapper">
-            <nav role="navigation" class="navbar topnavbar">
+        <header class="main-header">
+            <a href="{{ path('appbundle_admin_index') }}" class="logo">
+                <span class="logo-mini"><b>YB</b></span>
+                <span class="logo-lg"><b>YouBrush</b></span>
+            </a>
+
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+            </nav>
+
+            {#<nav role="navigation" class="navbar topnavbar">
                 <div class="navbar-header">
                     <a href="{{ path('appbundle_admin_index') }}" class="navbar-brand">
                         <div class="brand-logo">YouBrush</div>
@@ -22,11 +41,45 @@
                         <!-- END lock screen-->
                     </ul>
                 </div>
-            </nav>
+            </nav>#}
         </header>
 
-        <div class="container">
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <ul class="sidebar-menu">
+                    <li class="header">Navigation</li>
+                    <li class="{{ 'appbundle_admin_index' in app.request.attributes.get('_route') ? 'active' }}">
+                        <a href="{{ path('appbundle_admin_index') }}">Home</a>
+                    </li>
+                    <li class="{{ 'youbrush_admin_user' in app.request.attributes.get('_route') ? 'active' }}">
+                        <a href="{{ path('youbrush_admin_user_index') }}">Users</a>
+                    </li>
+                    <li class="{{ 'youbrush_appbundle_admin_skills' in app.request.attributes.get('_route') ? 'active' }}">
+                        <a href="{{ path('youbrush_appbundle_admin_skills') }}">Skills</a>
+                    </li>
+                    <li class="{{ 'youbrush_appbundle_admin_country' in app.request.attributes.get('_route') ? 'active' }}">
+                        <a href="{{ path('youbrush_appbundle_admin_country_index') }}">Country</a>
+                    </li>
+                    <li class="{{ 'youbrush_appbundle_admin_state' in app.request.attributes.get('_route') ? 'active' }}">
+                        <a href="{{ path('youbrush_appbundle_admin_state_index') }}">State</a>
+                    </li>
+                    <li class="{{ 'youbrush_appbundle_admin_city' in app.request.attributes.get('_route') ? 'active' }}">
+                        <a href="{{ path('youbrush_appbundle_admin_city_index') }}">City</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('_security_logout') }}">Logout</a>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+
+        <div class="content-wrapper">
             {% block content -%}{% endblock %}
         </div>
     </div>
+{% endblock %}
+
+{% block core_javascripts -%}
+    <script src="{{ asset('js/admin.js') }}"></script>
+    <script src="{{ asset('js/admin-script.js') }}"></script>
 {% endblock %}
