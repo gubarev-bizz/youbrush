@@ -13,7 +13,7 @@ use AppBundle\Form\SkillsType;
 /**
  * Skills controller.
  *
- * @Route("/admin/skills")
+ * @Route("/skills")
  */
 class SkillsController extends Controller
 {

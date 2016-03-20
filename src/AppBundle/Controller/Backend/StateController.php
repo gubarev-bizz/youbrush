@@ -13,7 +13,7 @@ use AppBundle\Form\StateType;
 /**
  * State controller.
  *
- * @Route("/admin/state")
+ * @Route("/state")
  */
 class StateController extends Controller
 {

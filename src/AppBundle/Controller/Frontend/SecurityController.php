@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller\Backend;
+namespace AppBundle\Controller\Frontend;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\AuthorizationType;
@@ -13,9 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 
-/**
- * @Route("/")
- */
+
 class SecurityController extends Controller {
 
     /**

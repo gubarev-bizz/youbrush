@@ -13,7 +13,7 @@ use AppBundle\Form\CityType;
 /**
  * City controller.
  *
- * @Route("/admin/city")
+ * @Route("/city")
  */
 class CityController extends Controller
 {

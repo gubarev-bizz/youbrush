@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 
 
 /**
- * @Route("/admin")
+ * @Route("/")
  */
 class AdminController extends Controller {
 

@@ -13,7 +13,7 @@ use AppBundle\Form\CountryType;
 /**
  * Country controller.
  *
- * @Route("/admin/country")
+ * @Route("/country")
  */
 class CountryController extends Controller
 {

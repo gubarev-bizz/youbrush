@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+
+    {% block content -%}{% endblock %}
+
+{% endblock %}
+
+{% block core_javascripts -%}
+    <script src="{{ asset('js/core.js') }}"></script>
+    <script src="{{ asset('js/site.js') }}"></script>
+{% endblock %}
