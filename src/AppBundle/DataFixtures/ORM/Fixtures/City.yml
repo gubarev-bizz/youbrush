@@ -1,4 +1,4 @@
-AppBundle\Entity\City:
+AppBundle\Entity\Backend\City:
       CityTest{1..1}:
         name: "Cherkassy"
         state: 1

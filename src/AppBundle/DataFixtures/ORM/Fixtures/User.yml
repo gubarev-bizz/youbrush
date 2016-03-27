@@ -1,5 +1,5 @@
 # test password - test
-AppBundle\Entity\User:
+AppBundle\Entity\Backend\User:
       UserTest{1..1}:
         email: "gubarev.bizz@gmail.com"
         name: <firstName()> <lastName()>

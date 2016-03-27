@@ -17,12 +17,12 @@ class AdminController extends Controller {
     /**
      * @Route("/", name="appbundle_admin_index")
      * @Method("GET")
-     * @Template("AppBundle:Admin:index.html.twig")
+     * @Template("AppBundle:Backend:index.html.twig")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->findAll();
+        $user = $em->getRepository('AppBundle:Backend\User')->findAll();
         if (!$user) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
