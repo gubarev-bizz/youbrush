@@ -12,8 +12,7 @@ var gulp = require('gulp'),
 
 gulp.task('default', ['build']);
 
-gulp.task('build', ['fonts', 'styles:bundle', 'less', 'scripts:bundle', 'bower-css', 'bower-js', 'scripts:adminLTE', 'styles:adminLTE', 'js', 'js:admin']);
-gulp.task('build', ['fonts', 'bower-css', 'less', 'bower-js', 'js']);
+gulp.task('build', ['fonts', 'less', 'scripts:bundle', 'bower-css', 'scripts:adminLTE', 'styles:adminLTE', 'js', 'js:admin']);
 
 gulp.task('clean', function (cb) {
     del(['web/css/*', 'web/js/*', 'web/fonts/*'], cb);
@@ -21,7 +20,7 @@ gulp.task('clean', function (cb) {
 
 gulp.task('bower-css', function() {
     return gulp.src([
-        'bower_components/components-font-awesome/css/font-awesome.min.css'
+        'bower_components/components-font-awesome/css/font-awesome.min.css',
         'bower_components/bootstrap/dist/css/bootstrap.min.css'
     ])
         .pipe(plumber())
