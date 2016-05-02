@@ -2,13 +2,9 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\State;
-use AppBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 
 class RegistrationType extends AbstractType
 {
@@ -55,7 +51,7 @@ class RegistrationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User',
+            'data_class' => 'AppBundle\Entity\Backend\User',
             'method' => 'POST',
         ));
     }

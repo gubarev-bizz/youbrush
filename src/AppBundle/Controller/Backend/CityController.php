@@ -7,11 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AppBundle\Entity\City;
-use AppBundle\Form\CityType;
+use AppBundle\Entity\Backend\City;
+use AppBundle\Form\Backend\CityType;
 
 /**
- * City controller.
+ * Backend\City controller.
  *
  * @Route("/admin/city")
  */
@@ -19,101 +19,71 @@ class CityController extends Controller
 {
 
     /**
-     * Lists all City entities.
+     * Lists all Backend\City entities.
      *
-     * @Route("/", name="youbrush_appbundle_admin_city_index")
+     * @Route("/", name="admin_city")
      * @Method("GET")
-     * @Template("AppBundle:Admin/City:index.html.twig")
+     * @Template()
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppBundle:City')->findAll();
+        $entities = $em->getRepository('AppBundle:Backend\City')->findAll();
 
         return array(
             'entities' => $entities,
         );
     }
+
     /**
-     * Creates a new City entity.
+     * Displays a form to create a new Backend\City entity.
      *
-     * @Route("/", name="youbrush_appbundle_admin_city_create")
-     * @Method("POST")
-     * @Template("AppBundle:Admin/City:new.html.twig")
+     * @Route("/new", name="admin_city_new")
+     * @Method({"GET", "POST"})
+     * @Template("AppBundle:Backend\City:edit.html.twig")
      */
-    public function createAction(Request $request)
+    public function newAction(Request $request)
     {
         $entity = new City();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+        $form = $this->createForm(new CityType(), $entity, array(
+            'action' => $this->generateUrl('admin_city_new'),
+        ));
+        $form->add('submit', 'submit', array('label' => 'Save'));
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
 
-            return $this->redirect($this->generateUrl('youbrush_appbundle_admin_city_show', array('id' => $entity->getId())));
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($entity);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('admin_city_show', array('id' => $entity->getId())));
+            }
         }
 
-        return array(
+        return [
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ];
     }
 
     /**
-     * Creates a form to create a City entity.
+     * Finds and displays a Backend\City entity.
      *
-     * @param City $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(City $entity)
-    {
-        $form = $this->createForm(new CityType(), $entity, array(
-            'action' => $this->generateUrl('youbrush_appbundle_admin_city_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
-
-    /**
-     * Displays a form to create a new City entity.
-     *
-     * @Route("/new", name="youbrush_appbundle_admin_city_new")
+     * @Route("/{id}", name="admin_city_show")
      * @Method("GET")
-     * @Template("AppBundle:Admin/City:new.html.twig")
-     */
-    public function newAction()
-    {
-        $entity = new City();
-        $form   = $this->createCreateForm($entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Finds and displays a City entity.
-     *
-     * @Route("/{id}", name="youbrush_appbundle_admin_city_show")
-     * @Method("GET")
-     * @Template("AppBundle:Admin/City:show.html.twig")
+     * @Template("AppBundle:Backend\City:show.html.twig")
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:City')->find($id);
+        $entity = $em->getRepository('AppBundle:Backend\City')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find City entity.');
+            throw $this->createNotFoundException('Unable to find Backend\City entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -125,87 +95,51 @@ class CityController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing City entity.
+     * Displays a form to edit an existing Backend\City entity.
      *
-     * @Route("/{id}/edit", name="youbrush_appbundle_admin_city_edit")
-     * @Method("GET")
-     * @Template("AppBundle:Admin/City:edit.html.twig")
+     * @Route("/{id}/edit", name="admin_city_edit")
+     * @Method({"GET", "PUT"})
+     * @Template("AppBundle:Backend\City:edit.html.twig")
      */
-    public function editAction($id)
+    public function editAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:City')->find($id);
+        $entity = $em->getRepository('AppBundle:Backend\City')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find City entity.');
+            throw $this->createNotFoundException('Unable to find Backend\City entity.');
         }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-    * Creates a form to edit a City entity.
-    *
-    * @param City $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(City $entity)
-    {
         $form = $this->createForm(new CityType(), $entity, array(
-            'action' => $this->generateUrl('youbrush_appbundle_admin_city_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Save'));
 
-        return $form;
-    }
-    /**
-     * Edits an existing City entity.
-     *
-     * @Route("/{id}", name="youbrush_appbundle_admin_city_update")
-     * @Method("PUT")
-     * @Template("AppBundle:Admin/City:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'PUT'){
+            $form->handleRequest($request);
 
-        $entity = $em->getRepository('AppBundle:City')->find($id);
+            if ($form->isValid()) {
+                $em->flush();
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find City entity.');
+                return $this->redirect($this->generateUrl('admin_city_show', array('id' => $entity->getId())));
+            }
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-            $em->flush();
 
-            return $this->redirect($this->generateUrl('youbrush_appbundle_admin_city_edit', array('id' => $id)));
-        }
-
-        return array(
+        return [
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $form->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ];
+
     }
     /**
-     * Deletes a City entity.
+     * Deletes a Backend\City entity.
      *
-     * @Route("/{id}", name="youbrush_appbundle_admin_city_delete")
+     * @Route("/{id}", name="admin_city_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -215,21 +149,21 @@ class CityController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AppBundle:City')->find($id);
+            $entity = $em->getRepository('AppBundle:Backend\City')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find City entity.');
+                throw $this->createNotFoundException('Unable to find Backend\City entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('youbrush_appbundle_admin_city_index'));
+        return $this->redirect($this->generateUrl('admin_city'));
     }
 
     /**
-     * Creates a form to delete a City entity by id.
+     * Creates a form to delete a Backend\City entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -238,7 +172,7 @@ class CityController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('youbrush_appbundle_admin_city_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('admin_city_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

@@ -12,15 +12,15 @@ var gulp = require('gulp'),
 
 gulp.task('default', ['build']);
 
-gulp.task('build', ['fonts', 'styles:bundle', 'less', 'scripts:bundle', 'js']);
+gulp.task('build', ['fonts', 'bower-css', 'less', 'bower-js', 'js']);
 
 gulp.task('clean', function (cb) {
     del(['web/css/*', 'web/js/*', 'web/fonts/*'], cb);
 });
 
-gulp.task('styles:bundle', function() {
+gulp.task('bower-css', function() {
     return gulp.src([
-        'node_modules/bootstrap/dist/css/bootstrap.min.css'
+        'bower_components/bootstrap/dist/css/bootstrap.min.css'
     ])
         .pipe(plumber())
         .pipe(uglifycss())
@@ -42,7 +42,7 @@ gulp.task('less', function () {
 });
 
 gulp.task('fonts', function () {
-    return gulp.src(['node_modules/bootstrap/fonts/*', 'web-src/fonts/*'])
+    return gulp.src(['bower_components/bootstrap/dist/fonts/*', 'web-src/fonts/*'])
         .pipe(gulp.dest('web/fonts'))
 });
 
@@ -55,10 +55,10 @@ gulp.task('js', function() {
         .pipe(gulp.dest('web/js'));
 });
 
-gulp.task('scripts:bundle', function() {
+gulp.task('bower-js', function() {
     return gulp.src([
-        'node_modules/jquery/dist/jquery.js',
-        'node_modules/bootstrap/dist/js/bootstrap.js'
+        'bower_components/jquery/dist/jquery.min.js',
+        'bower_components/bootstrap/dist/js/bootstrap.min.js'
     ])
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(concat('core.js'))

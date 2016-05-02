@@ -2,12 +2,11 @@
 
 namespace AppBundle\Form\EventListener;
 
-use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\State;
+use AppBundle\Entity\Backend\State;
 
 class AddStateFieldSubscriber implements EventSubscriberInterface
 {
@@ -33,16 +32,16 @@ class AddStateFieldSubscriber implements EventSubscriberInterface
     private function addStateForm($form, $state)
     {
         $form->add($this->factory->createNamed('state','entity', null, array(
-            'class'         => 'AppBundle:State',
+            'class'         => 'AppBundle:Bundle/State',
             'query_builder' => function (EntityRepository $repository) use ($state) {
                 $qb = $repository->createQueryBuilder('state')
                     ->innerJoin('state.user', 'user');
-                if ($province instanceof State) {
+                if ($state instanceof State) {
                     $qb->where('city.province = :province')
-                        ->setParameter('province', $province);
-                } elseif (is_numeric($province)) {
+                        ->setParameter('province', $state);
+                } elseif (is_numeric($state)) {
                     $qb->where('province.id = :province')
-                        ->setParameter('province', $province);
+                        ->setParameter('province', $state);
                 } else {
                     $qb->where('province.name = :province')
                         ->setParameter('province', null);

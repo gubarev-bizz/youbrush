@@ -7,11 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AppBundle\Entity\State;
-use AppBundle\Form\StateType;
+use AppBundle\Entity\Backend\State;
+use AppBundle\Form\Backend\StateType;
 
 /**
- * State controller.
+ * Backend\State controller.
  *
  * @Route("/admin/state")
  */
@@ -19,101 +19,71 @@ class StateController extends Controller
 {
 
     /**
-     * Lists all State entities.
+     * Lists all Backend\State entities.
      *
-     * @Route("/", name="youbrush_appbundle_admin_state_index")
+     * @Route("/", name="admin_state")
      * @Method("GET")
-     * @Template("AppBundle:Admin/State:index.html.twig")
+     * @Template()
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppBundle:State')->findAll();
+        $entities = $em->getRepository('AppBundle:Backend\State')->findAll();
 
         return array(
             'entities' => $entities,
         );
     }
+
     /**
-     * Creates a new State entity.
+     * Displays a form to create a new Backend\State entity.
      *
-     * @Route("/", name="youbrush_appbundle_admin_state_create")
-     * @Method("POST")
-     * @Template("AppBundle:Admin/State:new.html.twig")
+     * @Route("/new", name="admin_state_new")
+     * @Method({"GET", "POST"})
+     * @Template("AppBundle:Backend\State:edit.html.twig")
      */
-    public function createAction(Request $request)
+    public function newAction(Request $request)
     {
         $entity = new State();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+        $form = $this->createForm(new StateType(), $entity, array(
+            'action' => $this->generateUrl('admin_state_new'),
+        ));
+        $form->add('submit', 'submit', array('label' => 'Save'));
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
 
-            return $this->redirect($this->generateUrl('youbrush_appbundle_admin_state_show', array('id' => $entity->getId())));
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($entity);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('admin_state_show', array('id' => $entity->getId())));
+            }
         }
 
-        return array(
+        return [
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ];
     }
 
     /**
-     * Creates a form to create a State entity.
+     * Finds and displays a Backend\State entity.
      *
-     * @param State $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(State $entity)
-    {
-        $form = $this->createForm(new StateType(), $entity, array(
-            'action' => $this->generateUrl('youbrush_appbundle_admin_state_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
-
-    /**
-     * Displays a form to create a new State entity.
-     *
-     * @Route("/new", name="youbrush_appbundle_admin_state_new")
+     * @Route("/{id}", name="admin_state_show")
      * @Method("GET")
-     * @Template("AppBundle:Admin/State:new.html.twig")
-     */
-    public function newAction()
-    {
-        $entity = new State();
-        $form   = $this->createCreateForm($entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Finds and displays a State entity.
-     *
-     * @Route("/{id}", name="youbrush_appbundle_admin_state_show")
-     * @Method("GET")
-     * @Template("AppBundle:Admin/State:show.html.twig")
+     * @Template("AppBundle:Backend\State:show.html.twig")
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:State')->find($id);
+        $entity = $em->getRepository('AppBundle:Backend\State')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find State entity.');
+            throw $this->createNotFoundException('Unable to find Backend\State entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -125,87 +95,51 @@ class StateController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing State entity.
+     * Displays a form to edit an existing Backend\State entity.
      *
-     * @Route("/{id}/edit", name="youbrush_appbundle_admin_state_edit")
-     * @Method("GET")
-     * @Template("AppBundle:Admin/State:edit.html.twig")
+     * @Route("/{id}/edit", name="admin_state_edit")
+     * @Method({"GET", "PUT"})
+     * @Template("AppBundle:Backend\State:edit.html.twig")
      */
-    public function editAction($id)
+    public function editAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:State')->find($id);
+        $entity = $em->getRepository('AppBundle:Backend\State')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find State entity.');
+            throw $this->createNotFoundException('Unable to find Backend\State entity.');
         }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-    * Creates a form to edit a State entity.
-    *
-    * @param State $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(State $entity)
-    {
         $form = $this->createForm(new StateType(), $entity, array(
-            'action' => $this->generateUrl('youbrush_appbundle_admin_state_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Save'));
 
-        return $form;
-    }
-    /**
-     * Edits an existing State entity.
-     *
-     * @Route("/{id}", name="youbrush_appbundle_admin_state_update")
-     * @Method("PUT")
-     * @Template("AppBundle:Admin/State:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'PUT'){
+            $form->handleRequest($request);
 
-        $entity = $em->getRepository('AppBundle:State')->find($id);
+            if ($form->isValid()) {
+                $em->flush();
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find State entity.');
+                return $this->redirect($this->generateUrl('admin_state_show', array('id' => $entity->getId())));
+            }
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-            $em->flush();
 
-            return $this->redirect($this->generateUrl('youbrush_appbundle_admin_state_edit', array('id' => $id)));
-        }
-
-        return array(
+        return [
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $form->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ];
+
     }
     /**
-     * Deletes a State entity.
+     * Deletes a Backend\State entity.
      *
-     * @Route("/{id}", name="youbrush_appbundle_admin_state_delete")
+     * @Route("/{id}", name="admin_state_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -215,21 +149,21 @@ class StateController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AppBundle:State')->find($id);
+            $entity = $em->getRepository('AppBundle:Backend\State')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find State entity.');
+                throw $this->createNotFoundException('Unable to find Backend\State entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('youbrush_appbundle_admin_state_index'));
+        return $this->redirect($this->generateUrl('admin_state'));
     }
 
     /**
-     * Creates a form to delete a State entity by id.
+     * Creates a form to delete a Backend\State entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -238,7 +172,7 @@ class StateController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('youbrush_appbundle_admin_state_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('admin_state_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

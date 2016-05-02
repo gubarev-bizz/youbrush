@@ -1,0 +1,16 @@
+//not used
+
+{% block extends %}
+{{ "{% extends 'AppBundle::admin.html.twig' %}" }}
+{% endblock extends %}
+
+{% block body %}
+{{ "{% block content -%}" }}
+    <h1></h1>
+
+    {{ '{{ form(form) }}' }}
+
+    {% set hide_edit, hide_delete = true, true %}
+    {% include 'crud/views/others/record_actions.html.twig.twig' %}
+{{ "{% endblock %}" }}
+{% endblock body %}
