@@ -13,7 +13,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
 protected $parameters;
 public function __construct(array $parameters = array())
 {
-$this->parameters = $parameters;
+$this->parameters =  $parameters;
 }
 public function all()
 {
