@@ -2,19 +2,22 @@
 
 namespace AppBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Translatable\Translatable;
 
 /**
  * Skills
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @Gedmo\TranslationEntity(class="Entity\CategoryTranslation")
  */
-class Skills
+class Skills implements Translatable
 {
     /**
      * @var integer
      *
+	 * @Gedmo\Slug(fields={"name"}, updatable=true, separator="_")
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -24,11 +27,17 @@ class Skills
     /**
      * @var string
      *
+	 * @Gedmo\Translatable
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
-
+	/**
+	 * @Gedmo\Locale
+	 * Used locale to override Translation listener`s locale
+	 * this is not a mapped field of entity metadata, just a simple property
+	 */
+	private $locale;
 
 
     /**
@@ -112,4 +121,13 @@ class Skills
     {
         return $this->user;
     }
+
+  /**
+   * @param $locale
+   */
+  	public function setTranslatableLocale($locale)
+	{
+	  $this->locale = $locale;
+	}
+
 }
