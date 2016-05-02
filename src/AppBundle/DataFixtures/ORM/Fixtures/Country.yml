@@ -1,9 +1,0 @@
-AppBundle\Entity\Backend\Country:
-      CountryTest{1..1}:
-        name: "Ukraine"
-
-      Country{1..2}:
-        name: "Belarus"
-
-      Country{2..2}:
-        name: "Poland"

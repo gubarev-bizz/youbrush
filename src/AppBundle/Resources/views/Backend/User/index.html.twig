@@ -1,53 +1,6 @@
 {% extends 'AppBundle::admin.html.twig' %}
 
 {% block content -%}
-<<<<<<< HEAD:src/AppBundle/Resources/views/Admin/User/index.html.twig
-    <div class="content-header">
-        <a href="{{ path('youbrush_admin_user_new') }}" class="btn btn-success pull-right">Create user</a>
-        <h1>User list</h1>
-    </div>
-    <section class="content">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Email</th>
-                                <th>Name</th>
-                                <th>Status</th>
-                                <th>Type</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for entity in entities %}
-                            <tr>
-                                <td><a href="{{ path('youbrush_admin_user_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                                <td>{{ entity.email }}</td>
-                                <td>{{ entity.name }}</td>
-                                <td>{{ entity.status }}</td>
-                                <td>{{ entity.type }}</td>
-                                <td>
-                                <ul>
-                                    <li>
-                                        <a href="{{ path('youbrush_admin_user_show', { 'id': entity.id }) }}">show</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ path('youbrush_admin_user_edit', { 'id': entity.id }) }}">edit</a>
-                                    </li>
-                                </ul>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </div>
-                </table>
-            </div>
-        </div>
-    </section>
-=======
     <h1>User list</h1>
 
             <ul class="pull-right">
@@ -97,6 +50,4 @@
         {% endfor %}
         </tbody>
     </table>
->>>>>>> f099e71226708231267105b624f130dbc4e9795c:src/AppBundle/Resources/views/Backend/User/index.html.twig
-
 {% endblock %}

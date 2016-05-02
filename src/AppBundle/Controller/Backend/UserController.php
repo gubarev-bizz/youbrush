@@ -13,7 +13,7 @@ use AppBundle\Form\Backend\UserType;
 /**
  * Backend\User controller.
  *
- * @Route("/admin/user")
+ * @Route("/user")
  */
 class UserController extends Controller
 {

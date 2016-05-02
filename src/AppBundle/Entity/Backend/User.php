@@ -96,34 +96,9 @@ class User implements UserInterface, Translatable
     private $status;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Skill")
-     * @ORM\JoinTable(name="users_skill",
-     *   joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *   inverseJoinColumns={@ORM\JoinColumn(name="skill_id", referencedColumnName="id")}
-     * )
+     * @ORM\ManyToMany(targetEntity="Skill", inversedBy="user")
      */
     protected $skills;
-
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="Country", inversedBy="user")
-     * @ORM\JoinColumn(name="country_id", referencedColumnName="id")
-     */
-    protected $country;
-
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="State", inversedBy="user")
-     * @ORM\JoinColumn(name="state_id", referencedColumnName="id")
-     */
-    protected $state;
-
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="City", inversedBy="user")
-     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
-     */
-    protected $city;
 
 	/**
 	 * @Gedmo\Locale

@@ -22,9 +22,6 @@ class UserType extends AbstractType
             ->add('type')
             ->add('status')
             ->add('skills')
-            ->add('country')
-            ->add('state')
-            ->add('city')
         ;
     }
     

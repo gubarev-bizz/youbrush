@@ -52,19 +52,10 @@
                         <a href="{{ path('appbundle_admin_index') }}">Home</a>
                     </li>
                     <li class="{{ 'youbrush_admin_user' in app.request.attributes.get('_route') ? 'active' }}">
-                        <a href="{{ path('youbrush_admin_user_index') }}">Users</a>
+                        <a href="{{ path('admin_user') }}">Users</a>
                     </li>
                     <li class="{{ 'youbrush_appbundle_admin_skills' in app.request.attributes.get('_route') ? 'active' }}">
                         <a href="{{ path('youbrush_appbundle_admin_skills') }}">Skills</a>
-                    </li>
-                    <li class="{{ 'youbrush_appbundle_admin_country' in app.request.attributes.get('_route') ? 'active' }}">
-                        <a href="{{ path('youbrush_appbundle_admin_country_index') }}">Country</a>
-                    </li>
-                    <li class="{{ 'youbrush_appbundle_admin_state' in app.request.attributes.get('_route') ? 'active' }}">
-                        <a href="{{ path('youbrush_appbundle_admin_state_index') }}">State</a>
-                    </li>
-                    <li class="{{ 'youbrush_appbundle_admin_city' in app.request.attributes.get('_route') ? 'active' }}">
-                        <a href="{{ path('youbrush_appbundle_admin_city_index') }}">City</a>
                     </li>
                     <li>
                         <a href="{{ path('_security_logout') }}">Logout</a>

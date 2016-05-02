@@ -20,18 +20,12 @@ class FixturesLoader extends DataFixtureLoader{
             if($env=='dev'){
                 $connection = $this->container->get('doctrine')->getConnection();
                 $connection->exec("ALTER TABLE `user` AUTO_INCREMENT = 1;");
-                $connection->exec("ALTER TABLE `skills` AUTO_INCREMENT = 1;");
-                $connection->exec("ALTER TABLE `country` AUTO_INCREMENT = 1;");
-                $connection->exec("ALTER TABLE `state` AUTO_INCREMENT = 1;");
-                $connection->exec("ALTER TABLE `city` AUTO_INCREMENT = 1;");
+                $connection->exec("ALTER TABLE `skill` AUTO_INCREMENT = 1;");
             }
 
             return [
                 __DIR__ . '/Fixtures/User.yml',
-                __DIR__ . '/Fixtures/Country.yml',
-                __DIR__ . '/Fixtures/State.yml',
-                __DIR__ . '/Fixtures/City.yml',
-                __DIR__ . '/Fixtures/Skills.yml'
+			  	__DIR__ . '/Fixtures/Skill.yml',
             ];
         }
 

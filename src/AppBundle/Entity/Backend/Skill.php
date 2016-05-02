@@ -10,9 +10,7 @@ use Gedmo\Translatable\Translatable;
 
 /**
  * Skill
- *
- * @ORM\Table()
- * @Gedmo\TranslationEntity(class="Entity\CategoryTranslation")
+ * @ORM\Entity
  */
 class Skill implements Translatable
 
@@ -36,12 +34,24 @@ class Skill implements Translatable
     private $name;
 
 	/**
+	 * @ORM\ManyToMany(targetEntity="User", mappedBy="skills")
+	 */
+	protected $user;
+
+	/**
 	 * @Gedmo\Locale
 	 * Used locale to override Translation listener`s locale
 	 * this is not a mapped field of entity metadata, just a simple property
 	 */
 	private $locale;
 
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+	  $this->user = new ArrayCollection();
+	}
 
     /**
      * Get id
@@ -83,37 +93,6 @@ class Skill implements Translatable
         return $this->getName();
     }
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->user = new ArrayCollection();
-    }
-
-    /**
-     * Add user
-     *
-     * @param User $user
-     *
-     * @return Skill
-     */
-    public function addUser(User $user)
-    {
-        $this->user[] = $user;
-
-        return $this;
-    }
-
-    /**
-     * Remove user
-     *
-     * @param User $user
-     */
-    public function removeUser(User $user)
-    {
-        $this->user->removeElement($user);
-    }
 
     /**
      * Get user
@@ -131,6 +110,13 @@ class Skill implements Translatable
   	public function setTranslatableLocale($locale)
 	{
 	  $this->locale = $locale;
+	}
+
+	/**
+	 * @param mixed $user
+	 */
+	public function setUser($user) {
+	  $this->user = $user;
 	}
 
 }
