@@ -15,10 +15,19 @@
     "test",
     "tests"
   ],
+  "version": "1.0.0",
   "dependencies": {
     "AdminLTE": "admin-lte#~2.3.2",
+    "jquery": "^2.2.1",
     "bootstrap": "^3.3.6",
-    "components-font-awesome": "~4.5.0",
-    "jquery": "^2.2.1"
+    "components-font-awesome": "4.3.0",
+    "plupload-bower": "1.5.7",
+    "bootstrap-datepicker": "*",
+    "bootstrap-select": "*",
+    "mjolnic-bootstrap-colorpicker": "*",
+    "bootstrap-filestyle": "*",
+    "flexslider": "*",
+    "jquery.maskedinput": "*",
+    "jquery-form": "3.46.0"
   }
 }

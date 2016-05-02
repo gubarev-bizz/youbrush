@@ -7,118 +7,88 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AppBundle\Entity\User;
-use AppBundle\Form\UserType;
+use AppBundle\Entity\Backend\User;
+use AppBundle\Form\Backend\UserType;
 
 /**
- * User controller.
+ * Backend\User controller.
  *
- * @Route("/user")
+ * @Route("/admin/user")
  */
 class UserController extends Controller
 {
 
     /**
-     * Lists all User entities.
+     * Lists all Backend\User entities.
      *
-     * @Route("/", name="youbrush_admin_user_index")
+     * @Route("/", name="admin_user")
      * @Method("GET")
-     * @Template("AppBundle:Admin/User:index.html.twig")
+     * @Template()
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppBundle:User')->findAll();
+        $entities = $em->getRepository('AppBundle:Backend\User')->findAll();
 
         return array(
             'entities' => $entities,
         );
     }
+
     /**
-     * Creates a new User entity.
+     * Displays a form to create a new Backend\User entity.
      *
-     * @Route("/", name="youbrush_admin_user_create")
-     * @Method("POST")
-     * @Template("AppBundle:Admin/User:new.html.twig")
+     * @Route("/new", name="admin_user_new")
+     * @Method({"GET", "POST"})
+     * @Template("AppBundle:Backend\User:edit.html.twig")
      */
-    public function createAction(Request $request)
+    public function newAction(Request $request)
     {
         $entity = new User();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+        $form = $this->createForm(new UserType(), $entity, array(
+            'action' => $this->generateUrl('admin_user_new'),
+        ));
+        $form->add('submit', 'submit', array('label' => 'Save'));
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
 
-            $encoder = $this->get('security.encoder_factory')->getEncoder($entity);
-            $entity->setPassword($encoder->encodePassword($entity->getPlainPassword(), $entity->getSalt()));
-            $entity->eraseCredentials();
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
 
-            $em->persist($entity);
-            $em->flush();
+                $encoder = $this->get('security.encoder_factory')->getEncoder($entity);
+                $entity->setPassword($encoder->encodePassword($entity->getPlainPassword(), $entity->getSalt()));
+                $entity->eraseCredentials();
 
-            return $this->redirect($this->generateUrl('youbrush_admin_user_show', array('id' => $entity->getId())));
+                $em->persist($entity);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('admin_user_show', array('id' => $entity->getId())));
+            }
         }
 
-        return array(
+        return [
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ];
     }
 
     /**
-     * Creates a form to create a User entity.
+     * Finds and displays a Backend\User entity.
      *
-     * @param User $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(User $entity)
-    {
-        $form = $this->createForm(new UserType(), $entity, array(
-            'action' => $this->generateUrl('youbrush_admin_user_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
-
-    /**
-     * Displays a form to create a new User entity.
-     *
-     * @Route("/new", name="youbrush_admin_user_new")
+     * @Route("/{id}", name="admin_user_show")
      * @Method("GET")
-     * @Template("AppBundle:Admin/User:new.html.twig")
-     */
-    public function newAction()
-    {
-        $entity = new User();
-        $form   = $this->createCreateForm($entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Finds and displays a User entity.
-     *
-     * @Route("/{id}", name="youbrush_admin_user_show")
-     * @Method("GET")
-     * @Template("AppBundle:Admin/User:show.html.twig")
+     * @Template("AppBundle:Backend\User:show.html.twig")
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:User')->find($id);
+        $entity = $em->getRepository('AppBundle:Backend\User')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
+            throw $this->createNotFoundException('Unable to find Backend\User entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -130,87 +100,56 @@ class UserController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing User entity.
+     * Displays a form to edit an existing Backend\User entity.
      *
-     * @Route("/{id}/edit", name="youbrush_admin_user_edit")
-     * @Method("GET")
-     * @Template("AppBundle:Admin/User:edit.html.twig")
+     * @Route("/{id}/edit", name="admin_user_edit")
+     * @Method({"GET", "PUT"})
+     * @Template("AppBundle:Backend\User:edit.html.twig")
      */
-    public function editAction($id)
+    public function editAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:User')->find($id);
+        $entity = $em->getRepository('AppBundle:Backend\User')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
+            throw $this->createNotFoundException('Unable to find Backend\User entity.');
         }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-    * Creates a form to edit a User entity.
-    *
-    * @param User $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(User $entity)
-    {
         $form = $this->createForm(new UserType(), $entity, array(
-            'action' => $this->generateUrl('youbrush_admin_user_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Save'));
 
-        return $form;
-    }
-    /**
-     * Edits an existing User entity.
-     *
-     * @Route("/{id}", name="youbrush_admin_user_update")
-     * @Method("PUT")
-     * @Template("AppBundle:Admin/User:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'PUT'){
+            $form->handleRequest($request);
 
-        $entity = $em->getRepository('AppBundle:User')->find($id);
+            if ($form->isValid()) {
+                $em->flush();
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
+                $encoder = $this->get('security.encoder_factory')->getEncoder($entity);
+                $entity->setPassword($encoder->encodePassword($entity->getPlainPassword(), $entity->getSalt()));
+                $entity->eraseCredentials();
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('admin_user_show', array('id' => $entity->getId())));
+            }
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-            $em->flush();
 
-            return $this->redirect($this->generateUrl('youbrush_admin_user_edit', array('id' => $id)));
-        }
-
-        return array(
+        return [
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $form->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ];
+
     }
     /**
-     * Deletes a User entity.
+     * Deletes a Backend\User entity.
      *
-     * @Route("/{id}", name="youbrush_admin_user_delete")
+     * @Route("/{id}", name="admin_user_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -220,21 +159,21 @@ class UserController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AppBundle:User')->find($id);
+            $entity = $em->getRepository('AppBundle:Backend\User')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find User entity.');
+                throw $this->createNotFoundException('Unable to find Backend\User entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('user'));
+        return $this->redirect($this->generateUrl('admin_user'));
     }
 
     /**
-     * Creates a form to delete a User entity by id.
+     * Creates a form to delete a Backend\User entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -243,7 +182,7 @@ class UserController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('youbrush_admin_user_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('admin_user_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

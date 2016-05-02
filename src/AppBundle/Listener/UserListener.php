@@ -3,7 +3,7 @@
 namespace AppBundle\Listener;
 
 use Doctrine\ORM\Mapping\PreFlush;
-use AppBundle\Entity\User;
+use AppBundle\Entity\Backend\User;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 class UserListener

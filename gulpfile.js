@@ -12,16 +12,17 @@ var gulp = require('gulp'),
 
 gulp.task('default', ['build']);
 
-gulp.task('build', ['fonts', 'styles:bundle', 'less', 'scripts:bundle', 'scripts:adminLTE', 'styles:adminLTE', 'js', 'js:admin']);
+gulp.task('build', ['fonts', 'styles:bundle', 'less', 'scripts:bundle', 'bower-css', 'bower-js', 'scripts:adminLTE', 'styles:adminLTE', 'js', 'js:admin']);
+gulp.task('build', ['fonts', 'bower-css', 'less', 'bower-js', 'js']);
 
 gulp.task('clean', function (cb) {
     del(['web/css/*', 'web/js/*', 'web/fonts/*'], cb);
 });
 
-gulp.task('styles:bundle', function() {
+gulp.task('bower-css', function() {
     return gulp.src([
-        'node_modules/bootstrap/dist/css/bootstrap.min.css',
         'bower_components/components-font-awesome/css/font-awesome.min.css'
+        'bower_components/bootstrap/dist/css/bootstrap.min.css'
     ])
         .pipe(plumber())
         .pipe(uglifycss())
@@ -58,8 +59,7 @@ gulp.task('fonts', function () {
     return gulp.src([
         'node_modules/bootstrap/fonts/*', 'web-src/fonts/*',
         'bower_components/components-font-awesome/fonts/*', 'web-src/fonts/*'
-    ])
-        .pipe(gulp.dest('web/fonts'))
+    ]).pipe(gulp.dest('web/fonts'))
 });
 
 gulp.task('js', function() {

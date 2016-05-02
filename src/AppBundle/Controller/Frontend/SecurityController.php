@@ -2,10 +2,9 @@
 
 namespace AppBundle\Controller\Frontend;
 
-use AppBundle\Entity\User;
+use AppBundle\Entity\Backend\User;
 use AppBundle\Form\AuthorizationType;
 use AppBundle\Form\RegistrationType;
-use AppBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

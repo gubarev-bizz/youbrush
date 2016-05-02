@@ -1,0 +1,18 @@
+{% extends 'AppBundle::admin.html.twig' %}
+
+{% block content -%}
+    <h1>{% if (entity.id) %}Country edit{% else %}Country creation{% endif %}</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_country') }}">
+            Back to the list
+        </a>
+    </li>
+    {% if (entity.id) %}
+    <li>{{ form(delete_form) }}</li>
+    {% endif %}
+</ul>
+{% endblock %}
