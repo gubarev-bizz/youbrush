@@ -1,0 +1,14 @@
+{% block extends %}
+{{ "{% extends 'AppBundle::admin.html.twig' %}" }}
+{% endblock extends %}
+
+{% block body %}
+{{ "{% block content -%}" }}
+    <h1>{{ '{% if (entity.id) %}' }}{{ entity|split('\\')|last }} edit{{ '{% else %}' }}{{ entity|split('\\')|last }} creation{{ '{% endif %}' }}</h1>
+
+    {{ '{{ form(form) }}' }}
+
+    {% set hide_edit, hide_delete = true, false %}
+    {% include 'crud/views/others/record_actions.html.twig.twig' %}
+{{ "{% endblock %}" }}
+{% endblock body %}

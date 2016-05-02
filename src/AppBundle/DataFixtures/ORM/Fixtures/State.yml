@@ -1,4 +1,4 @@
-AppBundle\Entity\State:
+AppBundle\Entity\Backend\State:
       StateTest{1..1}:
         name: "Chearkassy region"
         country: 1

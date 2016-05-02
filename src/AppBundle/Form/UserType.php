@@ -2,8 +2,7 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\User;
-use AppBundle\Entity\Skills;
+use AppBundle\Entity\Backend\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -41,9 +40,9 @@ class UserType extends AbstractType
             ->add('type', 'choice', [
                 'label' => 'Role user',
                 'choices' => [
-                    USER::ROLE_ADMIN => USER::ROLE_ADMIN,
-                    USER::ROLE_MANAGER => USER::ROLE_MANAGER,
-                    USER::ROLE_USER => USER::ROLE_USER
+                    User::ROLE_ADMIN => User::ROLE_ADMIN,
+                    User::ROLE_MANAGER => User::ROLE_MANAGER,
+                    User::ROLE_USER => User::ROLE_USER
                 ],
                 'required' => true
             ])
@@ -54,7 +53,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User'
+            'data_class' => 'AppBundle\Entity\Backend\User'
         ));
     }
 
