@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Backend;
 
+use Gedmo\Translatable\TranslatableListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -50,6 +51,7 @@ class SkillsController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+		  	$em->setTranslatableLocale('ru_ru');
             $em->persist($entity);
             $em->flush();
 
@@ -191,6 +193,9 @@ class SkillsController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+		  	/** @var TranslatableListener $transListener */
+		  	$transListener = $this->container->get('gedmo.listener.translatable');
+		  	$em->setTranslatableLocale('ru_ru');
             $em->flush();
 
             return $this->redirect($this->generateUrl('youbrush_appbundle_admin_skills_edit', array('id' => $id)));

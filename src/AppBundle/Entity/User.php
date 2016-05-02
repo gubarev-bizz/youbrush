@@ -3,11 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\Collection;
 
 /**
@@ -15,7 +16,7 @@ use Doctrine\Common\Collections\Collection;
  * @ORM\Table(name="user")
  * @UniqueEntity(fields={"email"}, message="This email address is already used")
  */
-class User implements UserInterface
+class User implements UserInterface, Translatable
 {
 
     const ROLE_ADMIN = 'admin';
@@ -60,6 +61,7 @@ class User implements UserInterface
     /**
      * @var string
      *
+	 * @Gedmo\Translatable
      * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 2,
@@ -121,6 +123,14 @@ class User implements UserInterface
      * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
      */
     protected $city;
+
+	/**
+	 * @Gedmo\Locale
+	 * Used locale to override Translation listener`s locale
+	 * this is not a mapped field of entity metadata, just a simple property
+	 * and it is not necessary because globally locale can be set in listener
+	 */
+	private $locale;
 
 
     /**
@@ -498,4 +508,12 @@ class User implements UserInterface
     {
         return $this->city;
     }
+
+	/**
+	 * @param $locale
+	 */
+	public function setTranslatableLocale($locale)
+	{
+	  $this->locale = $locale;
+	}
 }

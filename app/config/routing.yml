@@ -5,7 +5,9 @@ app:
 backend:
     resource: "@AppBundle/Controller/Backend"
     type:     annotation
-    prefix: "/admin"
+    prefix: "/{_locale}/admin"
+    requirements:
+      _locale: en|ru
 
 frontend:
     resource: "@AppBundle/Controller/Frontend"
