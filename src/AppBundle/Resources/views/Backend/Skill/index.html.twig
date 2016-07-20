@@ -3,13 +3,13 @@
 {% block content -%}
     <h1>Skill list</h1>
 
-            <ul class="pull-right">
-            <li>
-                <a href="{{ path('admin_skill_new') }}">
-                    Create a new Skill
-                </a>
-            </li>
-        </ul>
+    <ul class="pull-right">
+        <li>
+            <a href="{{ path('admin_skill_new') }}">
+                Create a new Skill
+            </a>
+        </li>
+    </ul>
     
     <div class="clearfix"></div>
 
@@ -23,9 +23,10 @@
         </thead>
         <tbody>
         {% for entity in entities %}
+            {{ dump(entity.name) }}
             <tr>
                 <td><a href="{{ path('admin_skill_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.name }}</td>
+                <td>{{ ('skill.'~entity.name) | trans() }}</td>
                 <td>
                 <ul>
                     <li>

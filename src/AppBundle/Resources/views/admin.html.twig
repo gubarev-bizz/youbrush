@@ -51,11 +51,11 @@
                     <li class="{{ 'appbundle_admin_index' in app.request.attributes.get('_route') ? 'active' }}">
                         <a href="{{ path('appbundle_admin_index') }}">Home</a>
                     </li>
-                    <li class="{{ 'youbrush_admin_user' in app.request.attributes.get('_route') ? 'active' }}">
+                    <li class="{{ 'admin_user' in app.request.attributes.get('_route') ? 'active' }}">
                         <a href="{{ path('admin_user') }}">Users</a>
                     </li>
-                    <li class="{{ 'youbrush_appbundle_admin_skills' in app.request.attributes.get('_route') ? 'active' }}">
-                        <a href="{{ path('youbrush_appbundle_admin_skills') }}">Skills</a>
+                    <li class="{{ 'admin_skill' in app.request.attributes.get('_route') ? 'active' }}">
+                        <a href="{{ path('admin_skill') }}">Skills</a>
                     </li>
                     <li>
                         <a href="{{ path('_security_logout') }}">Logout</a>
@@ -65,7 +65,15 @@
         </aside>
 
         <div class="content-wrapper">
-            {% block content -%}{% endblock %}
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box pad">
+                            {% block content -%}{% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 {% endblock %}

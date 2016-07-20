@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Backend;
 
+use AppBundle\Entity\Backend\Translations\SkillTranslation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -30,6 +31,8 @@ class SkillController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('AppBundle:Backend\Skill')->findAll();
+
+        dump($this->getRequest()->getLocale());
 
         return array(
             'entities' => $entities,
@@ -105,6 +108,7 @@ class SkillController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        /** @var Skill $entity */
         $entity = $em->getRepository('AppBundle:Backend\Skill')->find($id);
 
         if (!$entity) {
@@ -120,6 +124,8 @@ class SkillController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                $entity->addTranslation(new SkillTranslation($request->getLocale(), 'title', 'Maistas'));
+                $em->persist($entity);
                 $em->flush();
 
                 return $this->redirect($this->generateUrl('admin_skill_show', array('id' => $entity->getId())));

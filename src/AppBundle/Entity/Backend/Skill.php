@@ -6,14 +6,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Translatable\Translatable;
 
 /**
- * Skill
  * @ORM\Entity
  */
-class Skill implements Translatable
-
+class Skill
 {
     /**
      * @var integer
@@ -28,7 +25,6 @@ class Skill implements Translatable
     /**
      * @var string
      *
-	 * @Gedmo\Translatable
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -39,18 +35,12 @@ class Skill implements Translatable
 	protected $user;
 
 	/**
-	 * @Gedmo\Locale
-	 * Used locale to override Translation listener`s locale
-	 * this is not a mapped field of entity metadata, just a simple property
-	 */
-	private $locale;
-
-	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
-	  $this->user = new ArrayCollection();
+		$this->user = new ArrayCollection();
+		$this->translations = new ArrayCollection();
 	}
 
     /**
@@ -86,9 +76,12 @@ class Skill implements Translatable
     {
         return $this->name;
     }
-    
 
-    public function __toString()
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
     {
         return $this->getName();
     }
@@ -104,19 +97,31 @@ class Skill implements Translatable
         return $this->user;
     }
 
-  /**
-   * @param $locale
-   */
-  	public function setTranslatableLocale($locale)
-	{
-	  $this->locale = $locale;
-	}
-
 	/**
 	 * @param mixed $user
 	 */
-	public function setUser($user) {
+	public function setUser($user)
+    {
 	  $this->user = $user;
 	}
+
+    /**
+     * @return mixed
+     */
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    /**
+     * @param SkillTranslation $t
+     */
+    public function addTranslation(SkillTranslation $t)
+    {
+        if (!$this->translations->contains($t)) {
+            $this->translations[] = $t;
+            $t->setObject($this);
+        }
+    }
 
 }

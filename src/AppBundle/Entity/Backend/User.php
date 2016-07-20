@@ -62,7 +62,6 @@ class User implements UserInterface, Translatable
     /**
      * @var string
      *
-	 * @Gedmo\Translatable
      * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 2,
